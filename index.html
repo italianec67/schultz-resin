@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20261106_v3">
   <!-- Schema.org Microdata (Структурированная разметка для расширенного сниппета) -->
   <script type="application/ld+json">
   {
@@ -98,7 +98,13 @@
     </div>
 
     <!-- Mobile Drawer Menu -->
-    <div class="mobile-drawer" id="mobileDrawer">
+    <!-- Mobile Drawer Backdrop & Menu -->
+    <div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop"></div>
+    <div class="mobile-drawer" id="mobileDrawer" aria-label="Мобильное меню навигации">
+      <div class="mobile-drawer-header">
+        <span class="mobile-drawer-title">Меню сайта</span>
+        <button class="mobile-drawer-close" id="mobileDrawerClose" aria-label="Закрыть меню">✕</button>
+      </div>
       <nav class="mobile-nav">
         <a href="#catalog" class="mobile-nav-link">Каталог изделий</a>
         <a href="#quiz" class="mobile-nav-link">Подбор декора (Квиз)</a>
@@ -1279,7 +1285,7 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=20261106_v3"></script>
 
   
 

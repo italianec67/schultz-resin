@@ -2001,3 +2001,487 @@ img, video {
     width: 100% !important;
   }
 }
+
+/* ==========================================================================
+   PERFECT RESPONSIVE & MOBILE ADAPTATION SYSTEM (320px - 1024px)
+   OnePlus Nord 3, iPhone 12/13/14/15, Samsung Galaxy, Foldables
+   ========================================================================== */
+
+/* Universal Overflow Protection - prevents horizontal blowout */
+html {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  box-sizing: border-box !important;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box !important;
+}
+
+body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  position: relative !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+img, video, iframe, canvas, svg {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.modal-video, .hero-loop-video {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* Modals must be completely removed from layout when closed */
+.modal:not(.active) {
+  display: none !important;
+}
+
+/* --- MOBILE DRAWER BACKDROP & PANEL --- */
+.mobile-drawer-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  z-index: 998 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 0.3s ease, visibility 0.3s ease !important;
+}
+
+.mobile-drawer-backdrop.active {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.mobile-drawer {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: auto !important;
+  width: 85% !important;
+  max-width: 320px !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  background: var(--bg-surface-elevated, #1B2330) !important;
+  padding: 24px 20px 32px !important;
+  transform: translateX(105%) !important;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.32s ease !important;
+  z-index: 999 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  box-shadow: -8px 0 35px rgba(0, 0, 0, 0.85) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.mobile-drawer:not(.active) {
+  display: none !important;
+}
+
+.mobile-drawer.active {
+  display: flex !important;
+  transform: translateX(0) !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.mobile-drawer-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding-bottom: 16px !important;
+  border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,0.08)) !important;
+  margin-bottom: 20px !important;
+}
+
+.mobile-drawer-title {
+  font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif) !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: var(--accent-gold, #D4AF37) !important;
+  letter-spacing: 0.5px !important;
+}
+
+.mobile-drawer-close {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid var(--border-subtle, rgba(255,255,255,0.08)) !important;
+  color: var(--text-primary, #F5F7FA) !important;
+  font-size: 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: var(--transition-smooth, all 0.3s ease) !important;
+  line-height: 1 !important;
+}
+
+.mobile-drawer-close:hover {
+  background: var(--accent-gold, #D4AF37) !important;
+  color: #0B0E14 !important;
+}
+
+/* Burger Animation */
+.mobile-burger-btn {
+  display: none;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 5px !important;
+  width: 40px !important;
+  height: 40px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--border-subtle, rgba(255,255,255,0.08)) !important;
+  border-radius: var(--radius-sm, 8px) !important;
+  cursor: pointer !important;
+  padding: 8px !important;
+  z-index: 101 !important;
+  transition: var(--transition-smooth) !important;
+  flex-shrink: 0 !important;
+}
+
+.mobile-burger-btn span {
+  display: block !important;
+  width: 22px !important;
+  height: 2px !important;
+  background: var(--text-primary, #F5F7FA) !important;
+  transition: transform 0.3s ease, opacity 0.3s ease !important;
+  transform-origin: center !important;
+}
+
+.mobile-burger-btn.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg) !important;
+}
+
+.mobile-burger-btn.active span:nth-child(2) {
+  opacity: 0 !important;
+}
+
+.mobile-burger-btn.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg) !important;
+}
+
+/* TABLET & MOBILE (< 992px) */
+@media (max-width: 992px) {
+  .nav-menu { display: none !important; }
+  .header-actions .btn { display: none !important; }
+  .mobile-burger-btn { display: flex !important; }
+}
+
+/* MOBILE PHONES (< 768px) */
+@media (max-width: 768px) {
+  /* Header Layout */
+  .header {
+    padding: 10px 0 !important;
+  }
+  .header-container {
+    padding: 0 16px !important;
+    gap: 8px !important;
+  }
+  .header-messengers {
+    display: none !important; /* Messengers are in the mobile drawer and hero */
+  }
+  .logo-wrap {
+    gap: 10px !important;
+    max-width: calc(100% - 50px) !important;
+  }
+  .logo-brand {
+    font-size: 15.5px !important;
+    letter-spacing: 0.5px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  .logo-tagline {
+    font-size: 10px !important;
+  }
+  .logo-img {
+    width: 36px !important;
+    height: 36px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Containers & Spacing */
+  .container {
+    padding: 0 16px !important;
+    max-width: 100% !important;
+  }
+  .section {
+    padding: 44px 0 !important;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    padding: 20px 0 36px !important;
+  }
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 22px !important;
+  }
+  .hero-title {
+    font-size: clamp(23px, 6.2vw, 32px) !important;
+    line-height: 1.2 !important;
+    margin-bottom: 16px !important;
+    word-break: break-word !important;
+  }
+  .hero-subtitle {
+    font-size: 14.5px !important;
+    line-height: 1.5 !important;
+    margin-bottom: 18px !important;
+  }
+  .hero-badge {
+    font-size: 11.5px !important;
+    padding: 6px 12px !important;
+    line-height: 1.35 !important;
+    white-space: normal !important;
+    flex-wrap: wrap !important;
+    max-width: 100% !important;
+    margin-bottom: 16px !important;
+  }
+  .hero-usp-row {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    margin-bottom: 20px !important;
+  }
+  .usp-item {
+    padding: 10px 14px !important;
+  }
+  .usp-title {
+    font-size: 13.5px !important;
+  }
+  .usp-desc {
+    font-size: 12px !important;
+  }
+
+  /* Hero CTA Group */
+  .hero-cta-group {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+  .hero-cta-group .btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 14px 18px !important;
+    font-size: 14.5px !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  /* Hero Media Wrap & Video */
+  .hero-media-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .hero-media-card {
+    border-radius: var(--radius-md) !important;
+  }
+  .video-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    border-radius: var(--radius-md) !important;
+  }
+  .hero-loop-video {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+  }
+  .media-under-card {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    padding: 12px 14px !important;
+  }
+  .under-badge {
+    font-size: 12px !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+  .under-video-btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    justify-content: center !important;
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+  }
+
+  /* Section Titles */
+  .section-title {
+    font-size: clamp(22px, 5.5vw, 30px) !important;
+    line-height: 1.25 !important;
+  }
+  .section-subtitle {
+    font-size: 14px !important;
+    margin-bottom: 22px !important;
+  }
+
+  /* Catalog */
+  .catalog-filters {
+    gap: 8px !important;
+    overflow-x: auto !important;
+    padding-bottom: 8px !important;
+    -webkit-overflow-scrolling: touch !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+  }
+  .tab-btn {
+    padding: 8px 14px !important;
+    font-size: 12.5px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+  .grid-4, .grid-3, .grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  .catalog-card {
+    max-width: 100% !important;
+  }
+
+  /* Interactive Quiz */
+  .quiz-wrapper {
+    padding: 18px 14px !important;
+    border-radius: var(--radius-md) !important;
+    max-width: 100% !important;
+  }
+  .quiz-question {
+    font-size: 17.5px !important;
+    line-height: 1.35 !important;
+    margin-bottom: 16px !important;
+  }
+  .quiz-option-card {
+    padding: 12px 14px !important;
+    border-radius: var(--radius-sm) !important;
+  }
+  .quiz-option-text {
+    font-size: 13.5px !important;
+    line-height: 1.4 !important;
+  }
+  .quiz-nav {
+    display: flex !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+  .quiz-nav .btn {
+    min-width: 0 !important;
+    flex: 1 1 50% !important;
+    padding: 12px 10px !important;
+    font-size: 13.5px !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  /* Carousel */
+  .carousel-container {
+    flex-direction: column !important;
+    gap: 14px !important;
+  }
+  .carousel-slide {
+    flex: 0 0 100% !important;
+    min-width: 100% !important;
+  }
+  .carousel-nav-btn {
+    display: none !important;
+  }
+
+  /* Modals on Mobile */
+  .modal-dialog {
+    width: 94% !important;
+    max-width: 440px !important;
+    padding: 22px 16px !important;
+    margin: auto !important;
+    border-radius: var(--radius-md) !important;
+  }
+  .modal-dialog h3 {
+    font-size: 20px !important;
+    line-height: 1.3 !important;
+  }
+  .modal-dialog p {
+    font-size: 13px !important;
+  }
+  .modal-close {
+    top: 12px !important;
+    right: 12px !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 18px !important;
+  }
+
+  /* Footer */
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+  .footer-brand {
+    font-size: 18px !important;
+  }
+  .footer-desc {
+    font-size: 13px !important;
+  }
+
+  /* Cookie Banner */
+  .cookie-banner {
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 12px !important;
+    width: auto !important;
+    max-width: none !important;
+    padding: 14px 16px !important;
+  }
+  .cookie-content {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+  .cookie-text {
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+  }
+  .cookie-accept-btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Floating Scroll-Top */
+  .scroll-top-btn {
+    bottom: 18px !important;
+    right: 18px !important;
+    width: 42px !important;
+    height: 42px !important;
+  }
+}
+
+/* VERY COMPACT SCREENS (iPhone SE, Galaxy Fold 320px - 360px) */
+@media (max-width: 360px) {
+  .logo-brand {
+    font-size: 13.5px !important;
+  }
+  .logo-tagline {
+    display: none !important;
+  }
+  .hero-title {
+    font-size: 20px !important;
+  }
+  .quiz-wrapper {
+    padding: 14px 10px !important;
+  }
+  .quiz-option-text {
+    font-size: 12px !important;
+  }
+}
