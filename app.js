@@ -291,15 +291,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // --- 6. PRODUCTION CAROUSEL ---
+  // --- 6. PRODUCTION CAROUSEL WITH SWIPE & COUNTER ---
   const carouselTrack = document.getElementById('carouselTrack');
   const carouselPrevBtn = document.getElementById('carouselPrevBtn');
   const carouselNextBtn = document.getElementById('carouselNextBtn');
+  const carouselPrevMini = document.getElementById('carouselPrevMini');
+  const carouselNextMini = document.getElementById('carouselNextMini');
+  const carouselCurrentNum = document.getElementById('carouselCurrentNum');
+  const carouselTotalNum = document.getElementById('carouselTotalNum');
 
-  if (carouselTrack && carouselPrevBtn && carouselNextBtn) {
+  if (carouselTrack) {
     let currentSlide = 0;
     const slides = carouselTrack.querySelectorAll('.carousel-slide');
     const totalSlides = slides.length;
+
+    if (carouselTotalNum) {
+      carouselTotalNum.textContent = totalSlides;
+    }
 
     function getVisibleCount() {
       if (window.innerWidth <= 640) return 1;
@@ -313,31 +321,62 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentSlide > maxSlide) currentSlide = maxSlide;
       if (currentSlide < 0) currentSlide = 0;
 
-      const slideWidth = slides[0].getBoundingClientRect().width + 16;
-      carouselTrack.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+      if (slides.length > 0) {
+        const slideWidth = slides[0].getBoundingClientRect().width + 16;
+        carouselTrack.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+      }
+
+      if (carouselCurrentNum) {
+        carouselCurrentNum.textContent = currentSlide + 1;
+      }
     }
 
-    carouselNextBtn.addEventListener('click', () => {
+    function nextSlide() {
       const visible = getVisibleCount();
       if (currentSlide < totalSlides - visible) {
         currentSlide++;
       } else {
-        currentSlide = 0;
+        currentSlide = 0; // wrap around
       }
       updateCarousel();
-    });
+    }
 
-    carouselPrevBtn.addEventListener('click', () => {
+    function prevSlide() {
       const visible = getVisibleCount();
       if (currentSlide > 0) {
         currentSlide--;
       } else {
-        currentSlide = Math.max(0, totalSlides - visible);
+        currentSlide = Math.max(0, totalSlides - visible); // wrap around
       }
       updateCarousel();
-    });
+    }
+
+    carouselNextBtn?.addEventListener('click', nextSlide);
+    carouselPrevBtn?.addEventListener('click', prevSlide);
+    carouselNextMini?.addEventListener('click', nextSlide);
+    carouselPrevMini?.addEventListener('click', prevSlide);
+
+    // Touch swipe support on mobile devices
+    let touchStartX = 0;
+    let touchEndX = 0;
+    carouselTrack.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].clientX;
+    }, { passive: true });
+
+    carouselTrack.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].clientX;
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 40) {
+        if (diff < 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      }
+    }, { passive: true });
 
     window.addEventListener('resize', updateCarousel);
+    updateCarousel();
   }
 
   // --- 7. ACCORDION (FAQ) ---
@@ -499,13 +538,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // Delivery Calc Modal Open
   deliveryCalcTriggerBtn?.addEventListener('click', () => {
     deliveryCalcModal?.classList.add('active');
-    // Pre-calculate initially or reset
+    document.body.style.overflow = 'hidden';
     if (calcResultCard) calcResultCard.style.display = 'block';
     calculateDelivery();
   });
+  
+  const closeCalcModal = () => {
+    deliveryCalcModal?.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+  document.getElementById('deliveryCalcModalClose')?.addEventListener('click', closeCalcModal);
+  document.getElementById('deliveryCalcModalBackdrop')?.addEventListener('click', closeCalcModal);
 
-  document.getElementById('deliveryCalcModalClose')?.addEventListener('click', () => deliveryCalcModal?.classList.remove('active'));
-  document.getElementById('deliveryCalcModalBackdrop')?.addEventListener('click', () => deliveryCalcModal?.classList.remove('active'));
 
   // Toggle Custom City Input Field
   calcCitySelect?.addEventListener('change', () => {
@@ -622,27 +666,38 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- 9. FULL VIDEO MODAL TRIGGER ---
+
+  // Full Video Modal Trigger
   const heroVideoTrigger = document.getElementById('heroVideoTrigger');
   const modalVideoPlayer = document.getElementById('modalVideoPlayer');
 
-  if (heroVideoTrigger && videoModal) {
+  if (heroVideoTrigger) {
     heroVideoTrigger.addEventListener('click', () => {
-      videoModal.classList.add('active');
-      if (modalVideoPlayer) {
-        modalVideoPlayer.currentTime = 0;
-        modalVideoPlayer.muted = false; // Со звуком по клику
-        modalVideoPlayer.play();
+      const vModal = document.getElementById('videoModal');
+      const vPlayer = document.getElementById('modalVideoPlayer');
+      if (vModal) {
+        vModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+      if (vPlayer) {
+        vPlayer.currentTime = 0;
+        vPlayer.muted = false;
+        vPlayer.play().catch(e => console.log('Autoplay prevented:', e));
       }
     });
   }
 
   function closeVideoModal() {
-    videoModal?.classList.remove('active');
-    modalVideoPlayer?.pause();
+    const vModal = document.getElementById('videoModal');
+    const vPlayer = document.getElementById('modalVideoPlayer');
+    if (vModal) vModal.classList.remove('active');
+    if (vPlayer) vPlayer.pause();
+    document.body.style.overflow = '';
   }
 
   document.getElementById('videoModalClose')?.addEventListener('click', closeVideoModal);
   document.getElementById('videoModalBackdrop')?.addEventListener('click', closeVideoModal);
+
 
   // Exit Modal Trigger & Close
   document.getElementById('exitModalClose')?.addEventListener('click', () => exitModal?.classList.remove('active'));
@@ -955,3 +1010,32 @@ document.addEventListener('keydown', function(e) {
     }
   }
 });
+
+
+  // --- SMOOTH SCROLLING FOR ALL INTERNAL ANCHOR LINKS ---
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (!href || href === '#' || href === '#!') return;
+      
+      const targetElement = document.querySelector(href);
+      if (targetElement) {
+        e.preventDefault();
+        
+        // Close mobile drawer if open
+        if (typeof closeMobileMenu === 'function') {
+          closeMobileMenu();
+        }
+        document.body.style.overflow = '';
+        
+        const headerEl = document.querySelector('.site-header');
+        const headerOffset = headerEl ? headerEl.offsetHeight : 70;
+        const targetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: Math.max(0, targetTop),
+          behavior: 'smooth'
+        });
+      }
+    });
+  });

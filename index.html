@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="styles.css?v=20261106_v3">
+  <link rel="stylesheet" href="styles.css?v=20261106_v4">
   <!-- Schema.org Microdata (Структурированная разметка для расширенного сниппета) -->
   <script type="application/ld+json">
   {
@@ -49,6 +49,7 @@
     "priceRange": "500 - 15000 RUB"
   }
   </script>
+  <style>:root { --safe-bottom: env(safe-area-inset-bottom, 0px); }</style>
 </head>
 <body>
 
@@ -758,7 +759,7 @@
               <h3 class="quiz-question" id="quizFinalTitle">Результат вашего подбора готов</h3>
               <p class="final-desc" id="quizFinalSubtitle">Фотографии не передают глубину смолы и переливы золота. Ольга пришлет живые видео подходящих работ в диалоге:</p>
               
-              <div class="messenger-box-modal" style="text-align: left; max-width: 580px; margin: 16px auto 0;">
+              <div class="messenger-box-modal">
                 <label class="textarea-label">Ваше сообщение мастеру (можно дополнить или изменить):</label>
                 <div class="textarea-container">
                   <textarea class="form-input messenger-textarea" id="quizTextarea" rows="3">Здравствуйте, Ольга! Прошел подбор декора на сайте. Хочу посмотреть фото готовых вариантов со скидкой 10%.</textarea>
@@ -870,6 +871,16 @@
         </div>
         <button class="carousel-nav-btn next-btn" id="carouselNextBtn" aria-label="Следующее фото">›</button>
       </div>
+
+      <!-- Carousel Indicators & Mobile Navigation Counter -->
+      <div class="carousel-controls-bottom">
+        <button class="carousel-arrow-mini prev" id="carouselPrevMini" aria-label="Предыдущее фото">‹</button>
+        <div class="carousel-counter-badge" id="carouselCounterBadge">
+          <span id="carouselCurrentNum">1</span> / <span id="carouselTotalNum">12</span>
+        </div>
+        <button class="carousel-arrow-mini next" id="carouselNextMini" aria-label="Следующее фото">›</button>
+      </div>
+
     </div>
   </section>
 
@@ -1251,7 +1262,115 @@
     </div>
   </div>
 
-  <!-- COOKIE CONSENT BANNER -->
+  
+  <!-- VIDEO MASTERCLASS MODAL (Смотреть полный процесс) -->
+  <div class="modal" id="videoModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" id="videoModalBackdrop"></div>
+    <div class="modal-dialog modal-lg">
+      <button class="modal-close" id="videoModalClose" aria-label="Закрыть">&times;</button>
+      <div class="modal-video-wrap">
+        <video controls playsinline id="modalVideoPlayer" class="modal-video" preload="metadata">
+          <source src="input_data/media/masterclass_full_compressed.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- SMART DELIVERY CALCULATOR MODAL (Рассчитать доставку) -->
+  <div class="modal" id="deliveryCalcModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" id="deliveryCalcModalBackdrop"></div>
+    <div class="modal-dialog calc-dialog">
+      <button class="modal-close" id="deliveryCalcModalClose" aria-label="Закрыть">&times;</button>
+      <div class="modal-body text-center">
+        <h3 class="modal-title">Экспресс-расчет доставки по РФ</h3>
+        <p class="modal-subtitle">Отправка из авторской мастерской Ольги Шульц в г. Оренбург (СДЭК / Почта России)</p>
+        
+        <div class="calc-grid">
+          <div>
+            <label class="calc-label" for="calcCitySelect">1. Выберите город получения:</label>
+            <select id="calcCitySelect" class="calc-select">
+              <optgroup label="Оренбург и область">
+                <option value="orenburg">Оренбург</option>
+                <option value="orsk" selected>Орск</option>
+                <option value="buzuluk">Бузулук</option>
+                <option value="novotroitsk">Новотроицк</option>
+                <option value="gay">Гай</option>
+              </optgroup>
+              <optgroup label="Соседние регионы">
+                <option value="samara">Самара</option>
+                <option value="tolyatti">Тольятти</option>
+                <option value="ufa">Уфа</option>
+                <option value="kazan">Казань</option>
+                <option value="sterlitamak">Стерлитамак</option>
+              </optgroup>
+              <optgroup label="Вся Россия">
+                <option value="msk">Москва</option>
+                <option value="spb">Санкт-Петербург</option>
+                <option value="ekb">Екатеринбург</option>
+                <option value="chel">Челябинск</option>
+                <option value="nn">Нижний Новгород</option>
+                <option value="krd">Краснодар</option>
+                <option value="sochi">Сочи</option>
+                <option value="rnd">Ростов-на-Дону</option>
+                <option value="perm">Пермь</option>
+                <option value="tmn">Тюмень</option>
+                <option value="nsk">Новосибирск</option>
+                <option value="krasnoyarsk">Красноярск</option>
+                <option value="omsk">Омск</option>
+                <option value="volgograd">Волгоград</option>
+                <option value="voronezh">Воронеж</option>
+                <option value="vladivostok">Владивосток</option>
+                <option value="habarovsk">Хабаровск</option>
+                <option value="custom_other">✏️ Другой город России...</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <!-- Custom City Text Input (Hidden by default, shown if custom_other is chosen) -->
+          <div id="customCityWrap" style="display: none;">
+            <label class="calc-label" for="customCityInput">Укажите ваш город и область:</label>
+            <input type="text" id="customCityInput" class="form-input" placeholder="Например: г. Сургут, ХМАО">
+          </div>
+
+          <div>
+            <label class="calc-label" for="calcItemSelect">2. Какое изделие планируете заказать?</label>
+            <select id="calcItemSelect" class="calc-select">
+              <option value="small">Малый декор / Кулоны / Подставки (до 0.5 кг)</option>
+              <option value="medium" selected>Фруктовница / Поднос / Доска (1–2 кг)</option>
+              <option value="large">Настенные часы 40–50 см / Столик (3–5 кг)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Action Calculate Button -->
+        <button type="button" class="btn btn-gold btn-lg w-100 glow-effect" id="calcDoCalculateBtn">
+          <span>Рассчитать доставку</span>
+        </button>
+
+        <!-- Calculated Live Result: Appears / Updates dynamically -->
+        <div class="calc-result-card" id="calcResultCard" style="display: none;">
+          <div class="calc-unified-box">
+            <div class="calc-unified-item">
+              <span class="calc-item-label">⏱️ Срок доставки:</span>
+              <strong class="calc-item-val" id="calcDaysVal">от 2 дней</strong>
+            </div>
+            <div class="calc-unified-item">
+              <span class="calc-item-label">💰 Стоимость доставки:</span>
+              <strong class="calc-item-val gold-val" id="calcPriceVal">от <span class="tnum">340</span> ₽</strong>
+            </div>
+          </div>
+          <div class="calc-guarantee-note">
+            <span>🛡️ Включая 4-слойную бронеупаковку и 100% страховку целостности в пути</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- COOKIE CONSENT BANNER -->
   <div class="cookie-banner" id="cookieBanner">
     <div class="cookie-content">
       <span>🍪 Мы используем файлы cookie для удобства пользователей и аналитики. Продолжая использовать сайт, вы соглашаетесь с <a href="privacy.html#cookies" class="legal-link" data-doc="cookies">Политикой cookie</a>.</span>
@@ -1285,7 +1404,7 @@
     </div>
   </div>
 
-  <script src="app.js?v=20261106_v3"></script>
+  <script src="app.js?v=20261106_v4"></script>
 
   
 
